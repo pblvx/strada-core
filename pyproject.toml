@@ -13,6 +13,11 @@ dependencies = [
   "scipy",
   "pytest",
   "pytest-asyncio",
+  "numpy",
+  "torch",
+  "onnx",
+  "onnxscript",
+  "onnxruntime",
 ]
 
 [tool.pytest.ini_options]
