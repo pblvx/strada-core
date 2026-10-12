@@ -18,8 +18,13 @@ dependencies = [
   "onnx",
   "onnxscript",
   "onnxruntime",
+  "fastapi",
+  "uvicorn",
+  "httpx",
+  "anyio",
 ]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 pythonpath = ["."]
+
