@@ -1,6 +1,0 @@
-# REGLAS CRÍTICAS DE INGENIERÍA PARA CLINE:
-1. DESACOPLAMIENTO ESTRICTO: Todo intercambio de datos entre módulos debe usar los esquemas Pydantic v2 definidos en `src/core/`.
-2. INFERENCIA EN PRODUCCIÓN: Prohibido ejecutar tensores de PyTorch dentro de `src/api/server.py`. Toda inferencia en tiempo real debe usar `src/neural_surrogate/onnx_inference.py`.
-3. PERFORMANCE EN MEMORIA: Prohibido usar Pandas para streaming. Usa `Polars` o estructuras vectorizadas con `numpy` para garantizar cero retrasos.
-4. CONTROL DE EXCEPCIONES: Todo consumidor de Kafka/WebSockets debe manejar desconexiones limpias sin tirar el servidor.
-5. TESTS OBLIGATORIOS: Cada módulo debe tener su archivo de prueba correspondiente en `tests/` con asserts de rendimiento y validación numérica.
