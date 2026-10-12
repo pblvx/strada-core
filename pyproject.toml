@@ -5,26 +5,30 @@ description = "STRADA-CORE - F1 real-time strategy engine"
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 dependencies = [
-  "fastf1",
   "polars",
   "pyarrow",
   "pydantic>=2.0",
-  "confluent-kafka",
   "scipy",
-  "pytest",
-  "pytest-asyncio",
   "numpy",
-  "torch",
-  "onnx",
-  "onnxscript",
   "onnxruntime",
   "fastapi",
   "uvicorn",
-  "httpx",
   "anyio",
+  "confluent-kafka",
+  "pytest",
+  "pytest-asyncio",
+  "httpx",
 ]
+
+# Heavy stacks kept OUT of the runtime image (installed only via extras):
+#   ingest -> FastF1 data extraction (pulls pandas); train -> PINN torch/onnx export.
+# Rule #2: the production server never imports torch; it runs the ONNX graph only.
+[project.optional-dependencies]
+ingest = ["fastf1"]
+train = ["torch", "onnx", "onnxscript"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 pythonpath = ["."]
+
 

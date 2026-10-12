@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import functools
 import logging
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 import polars as pl
@@ -18,7 +19,7 @@ log = logging.getLogger("strada-server")
 ROOT = Path(__file__).resolve().parents[2]
 PARQUET = ROOT / "data" / "raw" / "silverstone_2024.parquet"
 RATE_HZ = 50.0
-BOOTSTRAP = "127.0.0.1:9092"
+BOOTSTRAP = os.environ.get("STRADA_BOOTSTRAP", "127.0.0.1:9092")
 TOPIC = "f1.telemetry.raw"
 class _State:
     engine = None

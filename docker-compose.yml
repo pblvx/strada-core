@@ -20,3 +20,17 @@ services:
           memory: 512M
     mem_limit: 512m
     mem_reservation: 256m
+
+  strada-core:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: strada-core
+    depends_on:
+      - redpanda
+    ports:
+      - "8000:8000"
+    environment:
+      # Redpanda is reachable by service name inside the compose network.
+      STRADA_BOOTSTRAP: "redpanda:9092"
+    restart: unless-stopped
