@@ -1,8 +1,9 @@
 .venv/
 __pycache__/
 *.pyc
+*.log
+.DS_Store
 data/raw/*.parquet
 data/raw/cache/
 data/models/*.pth
-.DS_Store
-*.log
+.clinerules
