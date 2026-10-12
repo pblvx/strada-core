@@ -40,3 +40,26 @@ def test_websocket_stream_packets():
 def test_no_torch_in_server():
     src = Path("src/api/server.py").read_text(encoding="utf-8")
     assert "import torch" not in src and "from torch" not in src
+
+
+def test_ui_static_served():
+    with _client() as client:
+        r = client.get("/")
+        assert r.status_code == 200
+        assert "text/html" in r.headers.get("content-type", "")
+        body = r.text
+        # Sirve el index.html del Pit-Wall HUD (no un 404)
+        assert "<canvas" in body or "strada" in body.lower()
+        assert "track_canvas.js" in body or "STRADA" in body
+
+
+def test_circuit_endpoint():
+    with _client() as client:
+        r = client.get("/api/circuit")
+        assert r.status_code == 200
+        data = r.json()
+        assert isinstance(data, list) and len(data) > 100
+        for pt in data:
+            assert "x" in pt and "y" in pt
+            assert isinstance(pt["x"], (int, float))
+            assert isinstance(pt["y"], (int, float))

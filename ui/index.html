@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STRADA-CORE · Pit-Wall HUD</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- TOP BAR -->
+    <header id="topbar">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span class="brand-name">STRADA<span class="accent">-</span>CORE</span>
+        <span class="brand-sub">PIT-WALL HUD · SILVERSTONE</span>
+      </div>
+      <div id="link-status" class="link-status is-live">
+        <span id="link-dot" class="link-dot"></span>
+        <span id="link-text">LIVE</span>
+      </div>
+    </header>
+
+    <!-- MAIN GRID -->
+    <main id="main">
+      <!-- CENTER: TRACK CANVAS -->
+      <section id="track-zone" class="zone">
+        <div class="zone-header">
+          <span class="zone-title">CIRCUIT TRACKING</span>
+          <div class="thermal-legend">
+            <span class="lg lg-cold">&lt;80&deg;C</span>
+            <span class="lg lg-opt">80-105&deg;C</span>
+            <span class="lg lg-hot">&gt;115&deg;C</span>
+          </div>
+        </div>
+        <div id="canvas-wrap">
+          <canvas id="track"></canvas>
+          <div id="lap-badge" class="lap-badge">LAP <span id="lap-num">--</span></div>
+        </div>
+      </section>
+
+      <!-- RIGHT: AI PANELS -->
+      <aside id="side-zone" class="zone">
+        <!-- THERMAL AI PANEL -->
+        <div class="panel" id="thermal-panel">
+          <div class="panel-header">
+            <span class="panel-title">AI THERMAL</span>
+            <span class="panel-tag">PINN</span>
+          </div>
+          <div class="thermal-row">
+            <div class="thermal-label">
+              <span>TYRE</span>
+              <span class="thermal-unit">&deg;C</span>
+            </div>
+            <div class="thermal-val" id="tyre-temp">--</div>
+            <div class="thermal-bar"><div id="tyre-bar" class="thermal-fill"></div></div>
+            <div class="thermal-state" id="tyre-state">--</div>
+          </div>
+          <div class="thermal-row">
+            <div class="thermal-label">
+              <span>BRAKE</span>
+              <span class="thermal-unit">&deg;C</span>
+            </div>
+            <div class="thermal-val" id="brake-temp">--</div>
+            <div class="thermal-bar"><div id="brake-bar" class="thermal-fill"></div></div>
+            <div class="thermal-state" id="brake-state">--</div>
+          </div>
+          <div class="compound-row">
+            <span class="compound-label">COMPOUND</span>
+            <span id="compound-chip" class="compound-chip">--</span>
+            <span class="age-label">AGE <span id="tyre-age">--</span></span>
+          </div>
+        </div>
+
+        <!-- TACTICAL MCTS PANEL -->
+        <div class="panel" id="tactical-panel">
+          <div class="panel-header">
+            <span class="panel-title">TACTICAL MCTS</span>
+            <button id="refresh-btn" class="refresh-btn" title="Refresh Strategy">&#8635; REFRESH</button>
+          </div>
+          <div id="tactical-card" class="tactical-card">
+            <div class="tac-action" id="tac-action">--</div>
+            <div class="tac-grid">
+              <div class="tac-item">
+                <span class="tac-k">COMPOUND</span>
+                <span class="tac-v" id="tac-compound">--</span>
+              </div>
+              <div class="tac-item">
+                <span class="tac-k">PIT LAP</span>
+                <span class="tac-v" id="tac-pitlap">--</span>
+              </div>
+              <div class="tac-item">
+                <span class="tac-k">TRAFFIC RISK</span>
+                <span class="tac-v" id="tac-traffic">--</span>
+              </div>
+              <div class="tac-item">
+                <span class="tac-k">UNDERCUT</span>
+                <span class="tac-v" id="tac-undercut">--</span>
+              </div>
+            </div>
+            <div class="tac-delta">
+              <span class="tac-k">EXPECTED &Delta;t vs RIVAL</span>
+              <span class="tac-v" id="tac-delta">--</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- BOTTOM: TELEMETRY HUD -->
+    <footer id="hud">
+      <div id="speed-block" class="hud-block">
+        <div class="speed-val"><span id="speed">0</span><span class="speed-unit">km/h</span></div>
+        <div class="speed-label">SPEED</div>
+      </div>
+
+      <div id="gear-block" class="hud-block">
+        <div class="gear-val" id="gear">-</div>
+        <div class="gear-label">GEAR</div>
+      </div>
+
+      <div id="rpm-block" class="hud-block">
+        <div class="rpm-top"><span class="hud-k">RPM</span><span class="hud-v" id="rpm">0</span></div>
+        <div class="rpm-bar"><div id="rpm-fill" class="rpm-fill"></div></div>
+      </div>
+
+      <div id="pedal-block" class="hud-block">
+        <div class="pedal">
+          <span class="pedal-k throttle-k">THR</span>
+          <div class="pedal-bar"><div id="throttle-bar" class="pedal-fill throttle-fill"></div></div>
+          <span class="pedal-v" id="throttle-pct">0%</span>
+        </div>
+        <div class="pedal">
+          <span class="pedal-k brake-k">BRK</span>
+          <div class="pedal-bar"><div id="brake-bar-pedal" class="pedal-fill brake-fill"></div></div>
+          <span class="pedal-v" id="brake-pct">0%</span>
+        </div>
+      </div>
+
+      <div id="drs-block" class="hud-block">
+        <div id="drs-badge" class="drs-badge">DRS</div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/track_canvas.js"></script>
+  <script src="/telemetry_hud.js"></script>
+</body>
+</html>
